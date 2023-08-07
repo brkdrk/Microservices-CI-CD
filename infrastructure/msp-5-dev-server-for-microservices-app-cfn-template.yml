@@ -1,0 +1,29 @@
+Microservices:
+  Type: AWS::EC2::Instance
+  Properties:
+    KeyName: burakdurak
+    DisableApiTermination: 
+    ImageId: ami-0b5c00c0109ecef42
+    InstanceType: t2.micro
+    SecurityGroupIds:
+      - sg-0639582d23f390a06
+    UserData:
+     #! /bin/bash
+     yum update -y
+     hostnamectl set-hostname microservices-dev-server
+     amazon-linux-extras install docker -y
+     systemctl start docker
+     systemctl enable docker
+     usermod -a -G docker ec2-user
+     curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" \
+     -o /usr/local/bin/docker-compose
+     chmod +x /usr/local/bin/docker-compose
+     yum install git -y
+     yum install java-11-amazon-corretto -y
+     git clone https://github.com/brkdrk/ci-cd-pipeline-microservices.git
+     cd ci-cd-pipeline-microservices
+     git fetch
+     git checkout dev
+    Tags:
+      - Key: Name
+        Value: Microservices
