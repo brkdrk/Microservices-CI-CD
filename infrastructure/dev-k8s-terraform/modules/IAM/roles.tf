@@ -1,14 +1,14 @@
-resource "aws_iam_policy" "policy_for_master_role" {
+resource "aws_iam_policy" "brkdrk_policy_for_master_role" {
   name        = "brkdrk_policy_for_master_role"
   policy      = file("./modules/IAM/brkdrk_policy_for_master.json")
 }
 
-resource "aws_iam_policy" "policy_for_worker_role" {
+resource "aws_iam_policy" "brkdrk_policy_for_worker_role" {
   name        = "brkdrk_policy_for_worker_role"
   policy      = file("./modules/IAM/brkdrk_policy_for_worker.json")
 }
 
-resource "aws_iam_role" "role_for_master" {
+resource "aws_iam_role" "brkdrk_role_for_master" {
   name = "brkdrk_role_master_k8s"
 
   # Terraform "jsonencode" function converts a
@@ -32,7 +32,7 @@ resource "aws_iam_role" "role_for_master" {
   }
 }
 
-resource "aws_iam_role" "role_for_worker" {
+resource "aws_iam_role" "brkdrk_role_for_worker" {
   name = "brkdrk_role_worker_k8s"
 
   # Terraform "jsonencode" function converts a
@@ -68,20 +68,20 @@ resource "aws_iam_policy_attachment" "attach_for_worker" {
   policy_arn = aws_iam_policy.brkdrk_policy_for_worker_role.arn
 }
 
-resource "aws_iam_instance_profile" "profile_for_master" {
-  name  = "profile_for_master"
+resource "aws_iam_instance_profile" "brkdrk_profile_for_master" {
+  name  = "brkdrk_profile_for_master"
   role = aws_iam_role.brkdrk_role_for_master.name
 }
 
-resource "aws_iam_instance_profile" "profile_for_worker" {
-  name  = "profile_for_worker"
+resource "aws_iam_instance_profile" "brkdrk_profile_for_worker" {
+  name  = "brkdrk_profile_for_worker"
   role = aws_iam_role.brkdrk_role_for_worker.name
 }
 
 output master_profile_name {
-  value       = aws_iam_instance_profile.profile_for_master.name
+  value       = aws_iam_instance_profile.brkdrk_profile_for_master.name
 }
 
 output worker_profile_name {
-  value       = aws_iam_instance_profile.profile_for_worker.name
+  value       = aws_iam_instance_profile.brkdrk_profile_for_worker.name
 }
