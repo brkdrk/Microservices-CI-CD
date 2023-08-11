@@ -1,15 +1,15 @@
 resource "aws_iam_policy" "policy_for_master_role" {
-  name        = "policy_for_master_role"
-  policy      = file("./modules/IAM/policy_for_master.json")
+  name        = "brkdrk_policy_for_master_role"
+  policy      = file("./modules/IAM/brkdrk_policy_for_master.json")
 }
 
 resource "aws_iam_policy" "policy_for_worker_role" {
-  name        = "policy_for_worker_role"
-  policy      = file("./modules/IAM/policy_for_worker.json")
+  name        = "brkdrk_policy_for_worker_role"
+  policy      = file("./modules/IAM/brkdrk_policy_for_worker.json")
 }
 
 resource "aws_iam_role" "role_for_master" {
-  name = "role_master_k8s"
+  name = "brkdrk_role_master_k8s"
 
   # Terraform "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -28,12 +28,12 @@ resource "aws_iam_role" "role_for_master" {
   })
 
   tags = {
-    Name = "role_for_master"
+    Name = "brkdrk_role_for_master"
   }
 }
 
 resource "aws_iam_role" "role_for_worker" {
-  name = "role_worker_k8s"
+  name = "brkdrk_role_worker_k8s"
 
   # Terraform "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -52,30 +52,30 @@ resource "aws_iam_role" "role_for_worker" {
   })
 
   tags = {
-    Name = "role_for_worker"
+    Name = "brkdrk_role_for_worker"
   }
 }
 
 resource "aws_iam_policy_attachment" "attach_for_master" {
   name       = "attachment_for_master"
-  roles      = [aws_iam_role.role_for_master.name]
-  policy_arn = aws_iam_policy.policy_for_master_role.arn
+  roles      = [aws_iam_role.brkdrk_role_for_master.name]
+  policy_arn = aws_iam_policy.brkdrk_policy_for_master_role.arn
 }
 
 resource "aws_iam_policy_attachment" "attach_for_worker" {
   name       = "attachment_for_worker"
-  roles      = [aws_iam_role.role_for_worker.name]
-  policy_arn = aws_iam_policy.policy_for_worker_role.arn
+  roles      = [aws_iam_role.brkdrk_role_for_worker.name]
+  policy_arn = aws_iam_policy.brkdrk_policy_for_worker_role.arn
 }
 
 resource "aws_iam_instance_profile" "profile_for_master" {
   name  = "profile_for_master"
-  role = aws_iam_role.role_for_master.name
+  role = aws_iam_role.brkdrk_role_for_master.name
 }
 
 resource "aws_iam_instance_profile" "profile_for_worker" {
   name  = "profile_for_worker"
-  role = aws_iam_role.role_for_worker.name
+  role = aws_iam_role.brkdrk_role_for_worker.name
 }
 
 output master_profile_name {
