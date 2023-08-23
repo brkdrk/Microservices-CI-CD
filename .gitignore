@@ -23,3 +23,8 @@ generated/
 
 # Terraform
 **/.terraform/
+
+# Rancher
+
+**/.rkestate/
+*/.rkestate/
